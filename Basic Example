@@ -1,0 +1,66 @@
+# Python program to implement a example of virtual asistent (Alicia) based con ChatGPT
+# The interaction with virtual asistant is performed by audio and voice recognition of the user
+# and asistant's answers are audio speech
+# this code was wrote and tested by: Camilo Duque - camilo.duque@tec.mx
+# from examples code of openai, speech_recognition and pyttsx3 API
+
+ 
+import speech_recognition as sr
+import pyttsx3
+import openai
+
+# Load your API key from your openai account 
+openai.api_key = "openai key"
+
+# Initialize the recognizer
+r = sr.Recognizer()
+ 
+# Function to convert text to speech
+def SpeakText(command):
+    # Initialize the engine
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 170)
+    engine.say(command)
+    engine.runAndWait()
+     
+     
+# Loop infinitely for user to speak
+while(1):   
+     
+    # Exception handling to handle
+    # exceptions at the runtime
+    try:
+         
+        # use the microphone as source for input.
+        with sr.Microphone() as source2:
+             
+            # wait for a second to let the recognizer
+            # adjust the energy threshold based on
+            # the surrounding noise level
+            r.adjust_for_ambient_noise(source2, duration=0.2)
+             
+            #listens for the user's input
+            print("say somethig now!")
+            SpeakText("Soy Alicia, ¿que deseas saber?")
+            audio2 = r.listen(source2,timeout=None, phrase_time_limit=60) #10)
+            
+             
+            # Using google to recognize audio
+            MyText = r.recognize_google(audio2, language = "es-VE")
+            MyText = MyText.lower()
+
+            print("tu orden es: ", MyText)
+
+            if MyText=="out": break
+
+            response = openai.Completion.create(model="text-davinci-003", prompt=MyText, max_tokens=2048)
+
+            print("La respuesta es: ", response.choices[0].text)
+
+            SpeakText("La respuesta es: " + response.choices[0].text)
+             
+    except sr.RequestError as e:
+        print("Could not request results; {0}".format(e))
+         
+    except sr.UnknownValueError:
+        print("unknown error occurred")

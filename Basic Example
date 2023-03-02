@@ -3,6 +3,11 @@
 # and asistant's answers are audio speech
 # this code was wrote and tested by: Camilo Duque - camilo.duque@tec.mx
 # from examples code of openai, speech_recognition and pyttsx3 API
+# For openai API: https://github.com/openai/openai-cookbook/
+# For speech_recognition API: https://github.com/Uberi/speech_recognition
+# For pyttsx3 API: https://github.com/nateshmbhat/pyttsx3
+# Please, if you want copy, test and modify this code, don´t forget make reference to: 
+# Camilo Duque - camilo.duque@tec.mx and the correspondent API's authors
 
  
 import speech_recognition as sr
